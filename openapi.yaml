@@ -1,24 +1,8 @@
-# Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com/) All Rights Reserved.
-
-# WSO2 LLC. licenses this file to you under the Apache License,
-# Version 2.0 (the "License"); you may not use this file except
-# in compliance with the License.
-# You may obtain a copy of the License at
-
-# http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-# KIND, either express or implied. See the License for the
-# specific language governing permissions and limitations
-# under the License.
-
 openapi: 3.0.3
 info:
-  title: Reservation Management - Python REST API
+  title: Choreo Samples - Reading List - Python REST API
   description: >-
-    This is a sample API specification for a simple reservation application with in-memory cache
+    This is a sample API specification for a simple reading list application with in-memory cache
     written in Python.
   license:
     name: Apache 2.0
@@ -30,103 +14,72 @@ externalDocs:
 servers:
   - url: http://localhost:5000
 tags:
-  - name: reservations
-    description: In-memory reservations list cache API
+  - name: books
+    description: In-memory book list cache API
 paths:
-  /reservations:
-    summary: List all reservations
+  /books:
+    summary: List all books
     get:
-      summary: List all reservations
-      operationId: ListAllReservations
+      summary: List all books
+      operationId: ListAllBooks
       tags:
-        - reservations
+        - books
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ReservationArray"
-  /reservation/{reservationId}:
-    summary: Get reservation by ID
-    get:
-      tags:
-        - Reservation Management
-      summary: Get reservation by ID
-      operationId: GetReservationById
-      parameters:
-        - name: reservationId
-          in: path
-          description: Reservation ID related to the requiring reservation
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/reservationPayload"
-        "404":
-          description: id not found
-    
+                $ref: "#/components/schemas/StringArray"
     post:
-      tags:
-        - Reservation Management
-      summary: Create reservation providing an id and a payload
-      description: Creates reservation based on the id supplied
-      operationId: CreateReservationById
-      parameters:
-        - name: reservationId
-          in: path
-          description: ID of reservation to create
-          required: true
-          schema:
-            type: string
+      summary: Insert a new book
+      operationId: InstallNewBook
       responses:
         "200":
           description: Successful operation
-        "404":
-          description: Reservation ID not found
+        "400":
+          description: Invalid request body
+      tags:
+        - books
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/reservationPayload"    
-    put:
+              $ref: "#/components/schemas/KeyValue"
+
+  /books/{id}:
+    summary: Get book by ID
+    get:
       tags:
-        - Reservation Management
-      summary: Update reservation status by giving the reservation ID
-      description: Updates the status of the reservation based on the id supplied
-      operationId: UpdateReservationById
+        - books
+      summary: Get book by ID
+      operationId: GetBookById
       parameters:
-        - name: reservationId
+        - name: id
           in: path
-          description: ID of reservation to update
+          description: id of book to return
           required: true
           schema:
             type: string
       responses:
         "200":
           description: Successful operation
-        "404":
-          description: id not found
-      requestBody:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/reservationPayload"
+                $ref: "#/components/schemas/KeyValue"
+        "404":
+          description: id not found
     delete:
       tags:
-        - Reservation Management
-      summary: Delete reservation by reservation ID
-      description: Deletes a reservation based on the id supplied
-      operationId: DeleteReservationById
+        - books
+      summary: Delete book by id
+      description: Deletes a single book based on the id supplied
+      operationId: DeleteBookById
       parameters:
-        - name: reservationId
+        - name: id
           in: path
-          description: ID of reservation to delete
+          description: id of book to delete
           required: true
           schema:
             type: string
@@ -135,21 +88,69 @@ paths:
           description: Successful operation
         "404":
           description: Id not found
+    put:
+      tags:
+        - books
+      summary: Update book status by id
+      description: Updates the status of the book based on the id supplied
+      operationId: UpdateBookStatusById
+      parameters:
+        - name: id
+          in: path
+          description: id of book to update
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: id not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Status"
+  /healthz:
+    summary: Healthcheck endpoint
+    get:
+      summary: Healthcheck
+      operationId: Healthcheck
+      responses:
+        "200":
+          description: Healthy response
+
 components:
   schemas:
-    reservationPayload:
+    Key:
       type: object
       properties:
-        reservationCreator:
+        id:
           type: string
-          example: "Billy Wilson"
-        reservationId:
+          example: "my-id"
+    Status:
+      type: object
+      properties:
+        status:
           type: string
-          example: "1233"
-        contact:
+          example: "read"
+    KeyValue:
+      type: object
+      required:
+        - name
+        - author
+        - status
+      properties:
+        name:
           type: string
-          example: "011-123-4567"
-    ReservationArray:
+          example: "my-name"
+        author:
+          type: string
+          example: "my-author"
+        status:
+          type: string
+          example: "read"
+    StringArray:
       type: array
       items:
-        type: object
+        type: string
