@@ -1,9 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Choreo Samples - Reading List - Python REST API
+  title: Kidney Stone Prediction API - Python REST API
   description: >-
-    This is a sample API specification for a simple reading list application with in-memory cache
-    written in Python.
+    Kidney Stone Prediction API.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -14,16 +13,16 @@ externalDocs:
 servers:
   - url: http://localhost:5000
 tags:
-  - name: books
-    description: In-memory book list cache API
+  - name: prediction
+    description: ML prediction
 paths:
   /predict:
-    summary: List all books
+    summary: Predict Kidney Stone.
     get:
-      summary: List all books
-      operationId: ListAllBooks
+      summary: Predict Kidney Stone.
+      operationId: PredictKidneyStone
       tags:
-        - books
+        - prediction
       responses:
         "200":
           description: Successful operation
@@ -49,29 +48,3 @@ components:
         id:
           type: string
           example: "my-id"
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          example: "read"
-    KeyValue:
-      type: object
-      required:
-        - name
-        - author
-        - status
-      properties:
-        name:
-          type: string
-          example: "my-name"
-        author:
-          type: string
-          example: "my-author"
-        status:
-          type: string
-          example: "read"
-    StringArray:
-      type: array
-      items:
-        type: string
