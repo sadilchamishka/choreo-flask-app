@@ -4,9 +4,8 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# endpoint to get all books
 @app.route('/kidney-stone/predict', methods=['GET'])
-def get_books():
+def predict():
     try:
         # List of expected parameters
         params = ['param1', 'param2', 'param3', 'param4', 'param5', 'param6']
