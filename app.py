@@ -8,7 +8,7 @@ books = []
 def generate_id():
     return len(books) + 1
 
-@app.route('/')
+@app.route('/reading-list/predict')
 def predict():
     return 'Hello World'
 
