@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 import pickle
-#import pandas as pd
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -28,14 +28,13 @@ def predict():
                 return f"Error: Query parameter '{param}' must be a valid number"
 
         # Reshaping the list to match the expected input format
-        #df_new = pd.DataFrame([data_list])
+        df_new = pd.DataFrame([data_list])
 
         # Load the saved model
         loaded_model = pickle.load(open('naive_bayes_model.sav', 'rb'))
 
         # Predict the probability
-        #return str(loaded_model.predict_proba(df_new)[0][0])
-        return "Success"
+        return str(loaded_model.predict_proba(df_new)[0][0])
 
 
 
