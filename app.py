@@ -8,6 +8,10 @@ books = []
 def generate_id():
     return len(books) + 1
 
+@app.route('/')
+def predict():
+    return 'Hello World'
+
 # endpoint to get all books
 @app.route('/reading-list/books', methods=['GET'])
 def get_books():
