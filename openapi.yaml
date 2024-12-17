@@ -17,6 +17,20 @@ tags:
   - name: books
     description: In-memory book list cache API
 paths:
+  /predict:
+    summary: List all books
+    get:
+      summary: List all books
+      operationId: ListAllBooks
+      tags:
+        - books
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StringArray"
   /books:
     summary: List all books
     get:
