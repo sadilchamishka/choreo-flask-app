@@ -5,7 +5,7 @@ import pandas as pd
 app = Flask(__name__)
 
 # endpoint to get all books
-@app.route('/reading-list/predict', methods=['GET'])
+@app.route('/kidney-stone/predict', methods=['GET'])
 def get_books():
     try:
         # List of expected parameters
