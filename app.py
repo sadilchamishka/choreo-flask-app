@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+import pickle
 
 app = Flask(__name__)
 
@@ -12,6 +13,35 @@ def generate_id():
 @app.route('/reading-list/books', methods=['GET'])
 def get_books():
     return jsonify({'books': books})
+
+@app.route('/predict')
+def predict():
+    try:
+        # List of expected parameters
+        params = ['param1', 'param2', 'param3', 'param4', 'param5', 'param6']
+
+        # Fetching parameters from request and validating if they are present
+        data_list = []
+        for param in params:
+            value = request.args.get(param)
+            if value is None:
+                return f"Error: Missing query parameter '{param}'"
+            try:
+                data_list.append(float(value))
+            except ValueError:
+                return f"Error: Query parameter '{param}' must be a valid number"
+
+        # Reshaping the list to match the expected input format
+
+
+        # Load the saved model
+        loaded_model = pickle.load(open('naive_bayes_model.sav', 'rb'))
+
+        # Predict the probability
+        return "hello"
+
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 # endpoint to add a new book
 @app.route('/reading-list/books', methods=['POST'])
