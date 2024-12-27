@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 import pickle
 import pandas as pd
 import tensorflow as tf
+import joblib
 
 app = Flask(__name__)
 
@@ -10,6 +11,7 @@ def predict():
     try:
         # List of expected parameters
         params = ['param1', 'param2', 'param3', 'param4', 'param5', 'param6']
+        scaler = pickle.load(open("scaler.pickle", 'rb'))
 
         # Fetching parameters from request and validating if they are present
         data_list = []
@@ -24,15 +26,16 @@ def predict():
 
         # Reshaping the list to match the expected input format
         df_new = pd.DataFrame([data_list])
+        df_new = scaler.transform(df_new)
 
         # Load the saved model
-        loaded_model = pickle.load(open('naive_bayes_model.sav', 'rb'))
+        #loaded_model = pickle.load(open('naive_bayes_model.sav', 'rb'))
         
         # Load the model
         loaded_model1 = tf.keras.models.load_model('my_model.h5')
 
         # Predict the probability
-        return str(loaded_model.predict_proba(df_new)[0][0])
+        return str(loaded_model1.predict(df_new)[0][0])
 
     except Exception as e:
         return f"Error: {str(e)}"
