@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import pickle
 import pandas as pd
+import tensorflow as tf
 
 app = Flask(__name__)
 
@@ -26,6 +27,9 @@ def predict():
 
         # Load the saved model
         loaded_model = pickle.load(open('naive_bayes_model.sav', 'rb'))
+        
+        # Load the model
+        loaded_model1 = tf.keras.models.load_model('my_model.h5')
 
         # Predict the probability
         return str(loaded_model.predict_proba(df_new)[0][0])
