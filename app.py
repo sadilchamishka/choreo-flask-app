@@ -27,9 +27,6 @@ def predict():
         # Reshaping the list to match the expected input format
         df_new = pd.DataFrame([data_list])
         df_new = scaler.transform(df_new)
-
-        # Load the saved model
-        #loaded_model = pickle.load(open('naive_bayes_model.sav', 'rb'))
         
         # Load the model
         loaded_model1 = tf.keras.models.load_model('my_model.h5')
