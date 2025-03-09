@@ -1,4 +1,4 @@
-schemaVersion: "1.1"
+schemaVersion: 1.1
 endpoints:
     - name: kidney-stone-prediction-rest-endpoint-523
       displayName: Kidney Stone Prediction REST Endpoint
